@@ -1,1 +1,1 @@
-// 메인 페이지 (종목 리스트)
+export { default } from "../page";

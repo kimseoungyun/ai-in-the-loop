@@ -1,1 +1,3 @@
-// 인증 영역 레이아웃
+export default function AuthLayout({ children }: { children: any }) {
+  return children;
+}

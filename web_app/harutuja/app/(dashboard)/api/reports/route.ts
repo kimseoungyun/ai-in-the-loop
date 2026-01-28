@@ -1,1 +1,3 @@
-// POST /api/reports (AI 리포트 생성)
+export async function POST() {
+  return new Response("Not Implemented", { status: 501 });
+}

@@ -1,1 +1,3 @@
-// 대시보드 레이아웃 (헤더 포함)
+export default function DashboardLayout({ children }: { children: any }) {
+  return children;
+}
