@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Trash2, Clock, Bell } from "lucide-react";
 
 interface Schedule {
@@ -85,30 +92,38 @@ export function NotificationSchedule() {
             className="flex items-center gap-2 rounded-lg bg-secondary/50 p-3"
           >
             <Clock className="h-4 w-4 text-muted-foreground" />
-            <select
+            <Select
               value={schedule.day}
-              onChange={(e) => handleUpdate(schedule.id, "day", e.target.value)}
-              className="h-8 w-24 rounded-md border border-input bg-card px-2 text-sm"
+              onValueChange={(value) => handleUpdate(schedule.id, "day", value)}
             >
-              {DAYS.map((day) => (
-                <option key={day.value} value={day.value}>
-                  {day.label}
-                </option>
-              ))}
-            </select>
-            <select
+              <SelectTrigger className="h-8 w-24 border-0 bg-card text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {DAYS.map((day) => (
+                  <SelectItem key={day.value} value={day.value}>
+                    {day.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
               value={schedule.time}
-              onChange={(e) =>
-                handleUpdate(schedule.id, "time", e.target.value)
+              onValueChange={(value) =>
+                handleUpdate(schedule.id, "time", value)
               }
-              className="h-8 w-20 rounded-md border border-input bg-card px-2 text-sm"
             >
-              {TIMES.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="h-8 w-20 border-0 bg-card text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {TIMES.map((time) => (
+                  <SelectItem key={time} value={time}>
+                    {time}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Button
               variant="ghost"
               size="sm"
@@ -123,30 +138,30 @@ export function NotificationSchedule() {
         {isAdding ? (
           <div className="flex items-center gap-2 rounded-lg border border-dashed border-border p-3">
             <Clock className="h-4 w-4 text-muted-foreground" />
-            <select
-              value={newDay}
-              onChange={(e) => setNewDay(e.target.value)}
-              className="h-8 w-24 rounded-md border border-input bg-card px-2 text-sm"
-            >
-              <option value="">요일</option>
-              {DAYS.map((day) => (
-                <option key={day.value} value={day.value}>
-                  {day.label}
-                </option>
-              ))}
-            </select>
-            <select
-              value={newTime}
-              onChange={(e) => setNewTime(e.target.value)}
-              className="h-8 w-20 rounded-md border border-input bg-card px-2 text-sm"
-            >
-              <option value="">시간</option>
-              {TIMES.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
+            <Select value={newDay} onValueChange={setNewDay}>
+              <SelectTrigger className="h-8 w-24 text-sm">
+                <SelectValue placeholder="요일" />
+              </SelectTrigger>
+              <SelectContent>
+                {DAYS.map((day) => (
+                  <SelectItem key={day.value} value={day.value}>
+                    {day.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={newTime} onValueChange={setNewTime}>
+              <SelectTrigger className="h-8 w-20 text-sm">
+                <SelectValue placeholder="시간" />
+              </SelectTrigger>
+              <SelectContent>
+                {TIMES.map((time) => (
+                  <SelectItem key={time} value={time}>
+                    {time}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <div className="ml-auto flex gap-1">
               <Button size="sm" className="h-8" onClick={handleAdd}>
                 추가

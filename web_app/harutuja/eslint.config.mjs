@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Backup/experimental sources (must be excluded from build & feature dev):
+    "tmp-vo/**",
+    "tmp-v0/**",
+    "@tmp-v0/**",
   ]),
 ]);
 
