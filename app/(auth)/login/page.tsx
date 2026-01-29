@@ -1,19 +1,25 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
-  const router = useRouter();
-
-  const handleGoogleLogin = () => {
-    // Store login state
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userName", "사용자");
-    router.push("/");
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
   };
 
   return (

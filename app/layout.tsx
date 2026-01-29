@@ -19,18 +19,25 @@ export const metadata: Metadata = {
   description: "관심 종목의 투자 리포트를 매일 받아보세요",
 };
 
-export default function RootLayout({
+import { createClient } from "@/lib/supabase/server";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="ko">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex min-h-screen flex-col bg-background">
-          <Header />
+          <Header user={user} />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>

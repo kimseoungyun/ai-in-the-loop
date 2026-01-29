@@ -102,15 +102,15 @@
 ## Implementation Checklist
 
 ### Phase 1: Foundation
-- [ ] **1. Supabase Client Setup**
-    - [ ] `supabase gen types typescript`
-    - [ ] `lib/supabase/server.ts` (Cookie handling)
-    - [ ] `lib/supabase/client.ts` (Singleton)
-- [ ] **2. Auth Middleware**
-    - [ ] `lib/supabase/middleware.ts` (Session update)
-    - [ ] `middleware.ts` (Route matching)
-- [ ] **3. User Sync**
-    - [ ] Google Login Page (`app/(auth)/login/page.tsx`)
+- [x] **1. Supabase Client Setup**
+    - [x] `supabase gen types typescript`
+    - [x] `lib/supabase/server.ts` (Cookie handling)
+    - [x] `lib/supabase/client.ts` (Singleton)
+- [x] **2. Auth Middleware**
+    - [x] `lib/supabase/middleware.ts` (Session update)
+    - [x] `middleware.ts` (Route matching)
+- [x] **3. User Sync**
+    - [x] Google Login Page (`app/(auth)/login/page.tsx`)
     - [ ] DB Trigger Verification (`HT_PROFILE` creation)
 
 ### Phase 2: Core Logic
