@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+
+---
+description: Next.js 15, Supabase, TypeScript 표준 및 모범 사례
+globs: **/*.{ts,tsx}
+---
+
+# 기술 스택 가이드 (Standard Directory)
+
+## 1. Next.js 15 (App Router)
+- **Server Components**: 기본적으로 모든 컴포넌트는 Server Component로 작성. 상호작용이 필요한 경우에만 'use client' 사용
+- **Data Fetching**: `fetch` API 또는 Server Actions 사용 (Client-side fetch 지양)
+- **Route Handlers**: 외부 API 연동이나 복잡한 서버 로직은 `app/api/` 하위에 구성
+
+## 2. Supabase & DB
+- **Auth**: `supabase/auth-helpers-nextjs` 대신 최신 `@supabase/ssr` 라이브러리 사용 권장
+- **Database**: Prisma를 ORM으로 사용하되, Supabase PostgreSQL과의 호환성 유지
+- **Security**: 모든 테이블에 대해 RLS(Row Level Security) 정책 적용을 고려한 쿼리 작성
+
+## 3. TypeScript 및 코드 품질
+- `any` 사용 금지. 모든 데이터 모델과 API 응답은 `types/` 폴더에 정의된 인터페이스 사용
+- 함수는 선언형 코드를 지향하며, 유지보수성을 위해 단일 책임 원칙 준수

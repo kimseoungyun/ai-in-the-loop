@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+
+
+---
+description: Tailwind CSS, shadcn/ui, 컴포넌트 아키텍처 규칙
+globs: components/**/*.tsx, app/**/*.tsx
+---
+
+# UI/UX 및 스타일 가이드
+
+## 1. 컴포넌트 분리 원칙 (Senior Architect Standard)
+- **`components/ui/`**: shadcn/ui 기본 컴포넌트 (수정 최소화)
+- **`components/domain/`**: 비즈니스 로직이 결합된 도메인 컴포넌트 (예: `StockCard`, `AIReportView`)
+- **`components/shared/`**: 레이아웃, 헤더 등 여러 도메인에서 공유하는 컴포넌트
+
+## 2. 디자인 시스템
+- **Framework**: Tailwind CSS (Utility-first)
+- **Icons**: Lucide React 사용
+- **Responsive**: 모바일 우선(Mobile-First) 디자인 적용
+
+## 3. UI 원칙
+- 대시보드나 복잡한 차트는 Phase 2로 미루고, Phase 1은 텍스트 중심의 깔끔한 리스트/상세 뷰에 집중
+- 모든 상호작용(버튼 클릭, 폼 제출) 시 Loading 상태(Skeleton UI) 필수 적용
