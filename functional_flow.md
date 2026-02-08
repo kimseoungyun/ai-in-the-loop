@@ -114,19 +114,19 @@
     - [ ] DB Trigger Verification (`HT_PROFILE` creation)
 
 ### Phase 2: Core Logic
-- [ ] **4. Stock Read (List)**
-    - [ ] `app/(dashboard)/page.tsx` Fetch Logic
-    - [ ] `StockList` Component & `StockCard`
-- [ ] **5. Stock Write (Create)**
-    - [ ] `actions/stocks.ts` -> `createStock`
-    - [ ] `StockCreateForm` UI & Validation
-- [ ] **6. Stock Detail (Read)**
-    - [ ] `app/(dashboard)/stocks/[id]/page.tsx` Fetch Logic
-    - [ ] Detail UI & Report Status Check
-- [ ] **7. AI Report (Write)**
-    - [ ] `lib/ai/client.ts` Setup
-    - [ ] `actions/reports.ts` -> `generateReport`
-    - [ ] Markdown Rendering in UI
+- [x] **4. Stock Read (List)**
+    - [x] `app/(dashboard)/page.tsx` Fetch Logic
+    - [x] `StockList` Component & `StockCard`
+- [x] **5. Stock Write (Create)**
+    - [x] `actions/stocks.ts` -> `createStock`
+    - [x] `StockCreateForm` UI & Validation
+- [x] **6. Stock Detail (Read)**
+    - [x] `app/(dashboard)/stocks/[id]/page.tsx` Fetch Logic
+    - [x] Detail UI & Report Status Check
+- [x] **7. AI Report (Write)**
+    - [x] `lib/ai/client.ts` Setup (Mock Implementation for V1)
+    - [x] `actions/reports.ts` -> `generateReport`
+    - [x] Markdown Rendering in UI
 
 ### Phase 3: Interaction
 - [ ] **8. Loading UI**

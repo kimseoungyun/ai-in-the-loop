@@ -2,17 +2,16 @@
 
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ChevronRight, FileText } from "lucide-react";
 
 interface StockCardProps {
   id: string;
   name: string;
   ticker?: string;
-  hasReport: boolean;
+  hasReport?: boolean;
 }
 
-export function StockCard({ id, name, ticker, hasReport }: StockCardProps) {
+export function StockCard({ id, name, ticker, hasReport = false }: StockCardProps) {
   return (
     <Link href={`/stocks/${id}`}>
       <Card className="group flex items-center justify-between p-4 transition-all hover:border-primary/30 hover:shadow-md">
@@ -32,10 +31,10 @@ export function StockCard({ id, name, ticker, hasReport }: StockCardProps) {
 
         <div className="flex items-center gap-2">
           {hasReport && (
-            <Badge variant="accent" className="flex items-center gap-1">
+            <div className="flex items-center gap-1 rounded-full bg-accent/10 px-2 py-1 text-xs text-accent">
               <FileText className="h-3 w-3" />
               <span>리포트</span>
-            </Badge>
+            </div>
           )}
           <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>

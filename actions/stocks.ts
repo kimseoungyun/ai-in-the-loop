@@ -4,10 +4,12 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "@/types/supabase";
 
 const CreateStockSchema = z.object({
     name: z.string().min(1, "종목명은 필수입니다."),
-    ticker: z.string().min(1, "티커/종목코드는 필수입니다."),
+    ticker: z.string().optional().default(""),
 });
 
 export type State = {
@@ -15,8 +17,9 @@ export type State = {
     success?: boolean;
 };
 
-export async function createStock(prevState: State | null, formData: FormData): Promise<State> {
-    const supabase = await createClient();
+
+export async function createStock(prevState: any, formData: FormData): Promise<State> {
+    const supabase = (await createClient()) as unknown as SupabaseClient<Database>;
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -59,7 +62,7 @@ export async function createStock(prevState: State | null, formData: FormData): 
 }
 
 export async function deleteStock(stockId: string) {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as unknown as SupabaseClient<Database>;
     const {
         data: { user },
     } = await supabase.auth.getUser();

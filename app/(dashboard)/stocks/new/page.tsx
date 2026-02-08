@@ -1,16 +1,18 @@
-"use client";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { StockCreateFormPage } from "@/components/stock/stock-create-form-page";
 
-import { StockForm } from "@/components/domain/stocks/stock-form";
+export default async function NewStockPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-export default function NewStockPage() {
-  const handleSubmit = (data: { name: string; ticker: string }) => {
-    // tmp-vo와 동일하게: 현재는 저장 로직 없이 로그만 남김
-    console.log("[harutuja] Saving stock:", data);
-  };
+  if (!user) {
+    redirect("/login");
+  }
 
   return (
     <main className="py-2">
-      <StockForm onSubmit={handleSubmit} />
+      <StockCreateFormPage />
     </main>
   );
 }

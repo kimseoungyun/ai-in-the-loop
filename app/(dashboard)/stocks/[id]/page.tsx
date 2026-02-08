@@ -6,6 +6,10 @@ import { ArrowLeft, Bot, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { generateReport } from "@/actions/reports";
+import { GenerateButton } from "@/components/report/generate-button";
+import { AIReport } from "@/components/domain/reports/ai-report";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "@/types/supabase";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -13,7 +17,7 @@ interface PageProps {
 
 export default async function StockDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const supabase = await createClient();
+  const supabase = (await createClient()) as unknown as SupabaseClient<Database>;
 
   const {
     data: { user },
@@ -39,10 +43,15 @@ export default async function StockDetailPage({ params }: PageProps) {
     .from("HT_REPORT")
     .select("*")
     .eq("HT_STOCK_ID", id)
-    .order("HT_CREATED_AT", { ascending: false })
+    .order("created_at", { ascending: false })
     .limit(1);
 
   const latestReport = reports?.[0];
+
+  const reportData = latestReport ? {
+    content: latestReport.HT_CONTENT,
+    generatedAt: new Date(latestReport.created_at).toLocaleString("ko-KR"),
+  } : null;
 
   return (
     <div className="flex-1 p-8 pt-6 space-y-6 max-w-4xl mx-auto">
@@ -60,44 +69,14 @@ export default async function StockDetailPage({ params }: PageProps) {
       <div className="grid gap-6 md:grid-cols-3">
         {/* Main Content: Report */}
         <div className="md:col-span-2 space-y-6">
-          <Card className="min-h-[400px]">
-            <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
-              <div className="space-y-1">
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <Bot className="h-5 w-5 text-primary" />
-                  AI 투자 리포트
-                </CardTitle>
-                {latestReport && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Calendar className="h-3 w-3" />
-                    {new Date(latestReport.HT_CREATED_AT).toLocaleDateString()}
-                    <Clock className="h-3 w-3" />
-                    {new Date(latestReport.HT_CREATED_AT).toLocaleTimeString()}
-                  </div>
-                )}
-              </div>
-
-              <form action={async () => {
-                "use server";
-                await generateReport(id, stock.HT_NAME);
-              }}>
-                <GenerateButton />
-              </form>
-            </CardHeader>
-            <CardContent className="pt-6 prose prose-sm dark:prose-invert max-w-none">
-              {latestReport ? (
-                <ReactMarkdown>{latestReport.HT_CONTENT}</ReactMarkdown>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground space-y-4">
-                  <Bot className="h-12 w-12 opacity-20" />
-                  <p>아직 생성된 리포트가 없습니다.<br />'리포트 생성' 버튼을 눌러 AI 등석을 시작해보세요.</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <AIReport
+            stockId={id}
+            stockName={stock.HT_NAME}
+            existingReport={reportData}
+          />
         </div>
 
-        {/* Sidebar: Meta Info (Placeholder for now) */}
+        {/* Sidebar: Meta Info */}
         <div className="space-y-6">
           <Card>
             <CardHeader>
@@ -106,7 +85,7 @@ export default async function StockDetailPage({ params }: PageProps) {
             <CardContent className="text-sm space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">등록일</span>
-                <span className="font-medium">{new Date(stock.HT_CREATED_AT).toLocaleDateString()}</span>
+                <span className="font-medium">{new Date(stock.created_at).toLocaleDateString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">티커</span>

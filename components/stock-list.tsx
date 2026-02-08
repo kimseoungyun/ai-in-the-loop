@@ -36,7 +36,7 @@ export function StockList({ stocks }: StockListProps) {
                         <CardContent>
                             <div className="text-2xl font-bold">{stock.HT_NAME}</div>
                             <p className="text-xs text-muted-foreground">
-                                등록일: {new Date(stock.HT_CREATED_AT).toLocaleDateString()}
+                                등록일: {new Date(stock.created_at).toLocaleDateString()}
                             </p>
                         </CardContent>
                     </Card>

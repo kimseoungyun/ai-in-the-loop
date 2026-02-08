@@ -12,7 +12,7 @@ export function StockCreateForm() {
 
     async function handleSubmit(formData: FormData) {
         startTransition(async () => {
-            const result = await createStock(formData);
+            const result = await createStock(null, formData);
             if (result?.error) {
                 alert(result.error);
             }

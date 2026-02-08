@@ -1,4 +1,6 @@
-import { StockCard } from "./stock-card";
+"use client";
+
+import { StockCard } from "@/components/domain/stocks/stock-card";
 
 interface Stock {
     HT_STOCK_ID: string;

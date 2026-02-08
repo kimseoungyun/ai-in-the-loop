@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
     Dialog,
@@ -16,8 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { createStock, State } from "@/actions/stocks";
-// @ts-ignore
 import { useActionState } from "react";
+import { toast } from "sonner";
 
 const initialState: State = { error: null };
 
@@ -35,8 +35,14 @@ export function StockCreateDialog() {
     const [open, setOpen] = useState(false);
     const [state, formAction] = useActionState(createStock, initialState);
 
-    // Close dialog on success logic can be added here with useEffect if needed
-    // For simplicity, we rely on user closing or optimistic updates
+    useEffect(() => {
+        if (state.success) {
+            toast.success("종목이 추가되었습니다.");
+            setOpen(false);
+        } else if (state.error) {
+            toast.error(state.error);
+        }
+    }, [state]);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -53,24 +59,15 @@ export function StockCreateDialog() {
                         투자를 기록하고 싶은 종목 정보를 입력하세요.
                     </DialogDescription>
                 </DialogHeader>
-                <form
-                    action={async (formData) => {
-                        await formAction(formData);
-                        setOpen(false);
-                    }}
-                    className="grid gap-4 py-4"
-                >
+                <form action={formAction} className="grid gap-4 py-4">
                     <div className="grid gap-2">
                         <Label htmlFor="name">종목명</Label>
                         <Input id="name" name="name" placeholder="예: 삼성전자" required />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="ticker">티커 / 종목코드</Label>
-                        <Input id="ticker" name="ticker" placeholder="예: 005930" required />
+                        <Label htmlFor="ticker">티커 / 종목코드 (선택)</Label>
+                        <Input id="ticker" name="ticker" placeholder="예: 005930" />
                     </div>
-                    {state?.error && (
-                        <p className="text-sm text-destructive font-medium">{state.error}</p>
-                    )}
                     <DialogFooter className="mt-2">
                         <SubmitButton />
                     </DialogFooter>

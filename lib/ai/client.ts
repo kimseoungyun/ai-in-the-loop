@@ -1,1 +1,9 @@
-// AI API 클라이언트 (Gemini/OpenAI)
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const apiKey = process.env.GEMINI_API_KEY;
+
+if (!apiKey) {
+    console.warn("GEMINI_API_KEY is not set in environment variables.");
+}
+
+export const genAI = new GoogleGenerativeAI(apiKey || "");
